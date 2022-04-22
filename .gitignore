@@ -1,3 +1,6 @@
 node_modules
 yarn-error.log
 build.version.json
+public*
+sw-*
+compiler.jar

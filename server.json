@@ -6,5 +6,5 @@
 
   "showMotd": true,
   "motdTitle": "消息",
-  "motdContent": "赞美太阳！"
+  "motdContent": "赞美太阳！<br>勤备份游戏存档以防万一情况<br>游戏BUG请在Github开Issue"
 }
