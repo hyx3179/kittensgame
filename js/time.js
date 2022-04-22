@@ -1986,7 +1986,7 @@ dojo.declare("classes.queue.manager", null,{
                 this.queueSourcesArr.push({name: i, label: this.queueLabels[i]});
             }
         }
-        self.queueSourcesArr;
+        //self.queueSourcesArr;
     },
     /*queueSources : ["policies", "tech", "buildings", "spaceMission",
                     "spaceBuilding","chronoforge", "voidSpace", "zigguratUpgrades",  

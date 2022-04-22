@@ -2,6 +2,14 @@
 <html lang="en">
 
 	<head>
+		<script>
+			if (location.hostname !== 'localhost') {
+				if (typeof navigator.serviceWorker !== 'undefined' &&
+					location.pathname.indexOf('//') == -1) {
+					navigator.serviceWorker.register('sw.js')
+				}
+			}
+		</script>
 		<meta charset="utf-8">
 		<meta http-equiv="Cache-Control" content="private, no-cache, no-store">
 		<meta http-equiv="Pragma" content="no-cache">
@@ -70,6 +78,7 @@
 
 			var version = "1494";
 			var buildRevision = 0;
+			var swRevision = 0;
 
 			var invalidateCache = false;
 
@@ -190,6 +199,7 @@
 
 				var def = $.getJSON("build.version.json?="+now).then(function(json){
 					buildRevision = json.buildRevision;
+					swRevision = json.swRevision;
 					loadedTheme.length > 0 && loadTheme(uiSettings.theme, buildRevision);
 					console.log("build revison is: " + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
@@ -343,9 +353,9 @@
 					</span>
 
 					<span style="font-size: small;">
-						<a href="http://kittensgame.com/alpha" tabindex="0" title="测试, 不稳定" target="_blank" style="opacity:0.6;">&alpha;</a>
 						<a href="http://kittensgame.com/beta" tabindex="0" title="测试, 稳定" target="_blank">&beta;</a>
 						<a href="http://kittensgame.com/web" tabindex="0" title="预发布, 每夜编译" target="_blank">ML</a>
+						<a href="https://likexia.gitee.io/cat-zh/" tabindex="0" title="原版汉化网站" target="_blank">C</a>
 					</span>
 				</div>
 
@@ -379,7 +389,7 @@
 					<a id="getTheApp-link" href="#" onclick="gamePage.ui.displayAppDialog();" style="font-weight: bold; color:#666;">Get the app</a> |
 
 					<a href="changelog.txt" target="_blank">Ver <span id="versionLink">?.?.?.?</span></a>
-					<a href="#" id="newVersion" onClick="gamePage.reload();" title="有新版本 !" style="display:none">↻</a>
+					<a href="#" id="newVersion" onClick="gamePage.reload();" title="有新版本 !&#10请在刷新后关闭网页重新打开!!" style="display:none">↻</a>
 				</div>
 			</div>
 
@@ -541,6 +551,7 @@
 
 			<div id="optionsDiv" style="display: none;" class="dialog help">
 				<a id="dialogClose" href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
+				<a id="forceRefresh" href="#" title="强制刷新" style="position: absolute; top: 9px; right: 60px; font-size: 21px;">↻</a>
 
 				<label id="optionLanguage" for="languageSelector">Language:</label>
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
@@ -648,6 +659,14 @@
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
+
+		<script type="text/javascript">
+			$("#forceRefresh").on('click', function () {
+				game.save();
+				caches.delete('cat-' + swRevision);
+				window.location.reload();
+			});
+		</script>
 		
 		<script type="text/javascript">
 			$.getJSON("/scientists/ks.version.json?=" + now)

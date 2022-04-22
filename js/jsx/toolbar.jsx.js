@@ -407,7 +407,7 @@ WLoginForm = React.createClass({
 				withCredentials: true
 			},
 			url: this.props.game.server.getServerUrl() + "/user/login/",
-			dataType: "json"
+			//dataType: "json"
 		}).done(function(resp){
             if (resp.id){
                 self.props.game.server.setUserProfile(resp);
