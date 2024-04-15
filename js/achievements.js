@@ -261,8 +261,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
     badges: [
         {   
             name: "lotus",
-            title: "Lotus Eater",
-            description: "Have more than 50 total resets",
+            title: "醉生梦死",
+            description: "周目数大于50",
             difficulty: "A",
             condition: function(){
                 return this.game.stats.getStat("totalResets").val >= 50;
@@ -270,14 +270,14 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         },
         {   
             name: "ivoryTower",
-            title: "Ivory Tower",
-            description: "Have a reset in a IW atheism",
+            title: "白色巨塔",
+            description: "钢铁无神论中重置",
             difficulty: "S+"
         },
         {   
             name: "useless",
-            title: "Effective Management",
-            description: "Have a useless leader",
+            title: "管理有方",
+            description: "使用无特质的领袖",
             difficulty: "F",
             condition: function(){
                 var leader = this.game.village.leader;
@@ -286,8 +286,8 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
         },
         { 
             name: "beta",
-            title: "Beta Decay",
-            description: "Participate in a beta test",
+            title: "β测试猿",
+            description: "参加过测试模式",
             difficulty: "B",
             condition: function(){
                 if (window && window.location && window.location.href){
@@ -297,21 +297,21 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             }
         },{
             name: "silentHill",
-            title: "Silent Hills",
-            description: "Have not MOTD content",
+            title: "静寂岭",
+            description: "获取不到服务器信息",
             difficulty: "S",
             condition: function(){
                 return (this.game.server.motdContent == "");
             }
         },{
             name: "evergreen",
-            title: "Wood badge",
-            description: "Craft a wood I think?",
+            title: "木质奖章",
+            description: "我想你制作了出一块木材？",
             difficulty: "F"
         },{
             name: "deadSpace",
-            title: "Dead Space",
-            description: "Have kittens wander in the void",
+            title: "死亡空间",
+            description: "猫咪在虚空中游荡",
             difficulty: "S",
             condition: function(){
                 var kittens = this.game.resPool.get("kittens");
@@ -319,31 +319,31 @@ dojo.declare("classes.managers.Achievements", com.nuclearunicorn.core.TabManager
             }
         },{
             name: "reginaNoctis",
-            title: "Regina Noctis",
-            description: "Have 500 kittens and no alicorns",
+            title: "夜之女王",
+            description: "拥有500只猫咪且没有天角兽",
             difficulty: "S",
             condition: function(){
                 return (this.game.resPool.get("kittens").value >= 500 && this.game.resPool.get("alicorn").value == 0);
             }
         },{
             name: "ghostInTheMachine",
-            title: "Experience a game bug (TBD see newrelic#errorHandle)",
+            title: "遇到了BUG（待定，请参阅 newrelic#errorHandle）",
             description: "♋︎⬧︎⧫︎♏︎❒︎🕯︎⬧︎ ●︎♋︎■︎♑︎◆︎♋︎♑︎♏︎ 🖳︎✆",
             difficulty: "S"
         },{
             name: "abOwo",
             title: "Ab Owo",
-            description: "Reset in atheism on day 0",
+            description: "第 0 天重置为无神论",
             difficulty: "A"
         },{
             name: "cleanPaws",
-            title: "Clean Paws",
-            description: "Peaceful trading without cat-power",
+            title: "粉嫩喵爪",
+            description: "不通过喵喵和平贸易",
             difficulty: "C"
         },{
             name: "sequenceBreak",
-            title: "Sequence Break",
-            description: "Skip Moon in the space tab",
+            title: "序列断点",
+            description: "在空间标签跳过红月",
             difficulty: "D",
             condition: function(){
                 return (!this.game.space.getPlanet("moon").reached && this.game.space.getPlanet("dune").reached);

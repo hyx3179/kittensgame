@@ -170,7 +170,7 @@ WToolbarMOTD = React.createClass({
         var server = this.game.server;
 		if (server.showMotd && server.motdContent) {
 			server.motdFreshMessage = false;
-			return "Message of the day:<br />" + server.motdContent;
+			return "当天消息:<br />" + server.motdContent;
 		}
     }
 });
@@ -322,7 +322,7 @@ WLoginForm = React.createClass({
 
     render: function(){
         if (this.state.isLoading){
-            return $r("span", null, "Loading...");
+            return $r("span", null, "加载中...");
         }
         var game = this.props.game;
         if (game.server.userProfile){
@@ -332,7 +332,7 @@ WLoginForm = React.createClass({
                     (userProfile.email ? md5(userProfile.email) : "n/a")
                 + "?s=15"}),
                 $r("a", {
-                    href:"/ui/profile", target:"_blank"
+                    href:"https://kittensgame.com/ui/profile", target:"_blank"
                 }, userProfile.id)
             ]);
 
@@ -361,11 +361,12 @@ WLoginForm = React.createClass({
                     $r("a", {
                         href:"#",
                         onClick: this.login
-                    }, "login"),
+                    }, "登录"),
                     $r("a", {
                         target: "_blank",
                         href: "http://kittensgame.com/ui/register"
-                    }, "register")
+                    }, "注册"),
+                    $r("span", {paddingTop:"10px"}, "存档自动存在浏览器的缓存里，不换端无需云存档")
                 ]),
                 this.state.error && $r("div", {className: "row"}, [
                     $r("span", {className:"error"}, this.state.error)
@@ -491,30 +492,30 @@ WCloudSaveRecord = React.createClass({
             ),
             $r("div", {className:"save-record-cell"},
                 save.index ?
-                ("Year "+ save.index.calendar.year + ", day " + save.index.calendar.day) :
-                "loading..."
+                (save.index.calendar.year + "年，" + save.index.calendar.day + " 天 ") :
+                "加载中.."
             ),
             $r("div", {className:"save-record-cell"},
-                new Date(save.timestamp).toLocaleDateString("en-US", {
+                new Date(save.timestamp).toLocaleDateString("zh-CN", {
                     month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hourCycle: "h24"
                 })
             ),
             $r("div", {className:"save-record-cell"}, self.bytesToSize(save.size)),
             isActiveSave && $r("a", {
                 className: "link",
-                title: "Upload your current game save to the server (this will owerwrite your old cloud save)",
+                title: "上传你当前游戏存档到官网（会覆盖旧存档）",
                 onClick: function(e){
                     e.stopPropagation();
-                    game.ui.confirm("[S]ave", "This will override [SERVER] save. Y/N", function(){
+                    game.ui.confirm("上传", "这会覆盖云端的存档。确定/取消", function(){
                         game.server.pushSave();
                     });
                 }}, $I("ui.kgnet.save.save")),
             $r("a", {
                 className: "link",
-                title: "Download a cloud save and apply it to your game (your current data will be lost)",
+                title: "下载并加载云存档（你当前的存档会丢失）",
                 onClick: function(e){
                     e.stopPropagation();
-                    game.ui.confirm("[L]oad", "This will override [LOCAL] save. Y/N", function(){
+                    game.ui.confirm("加载", "这会覆盖本地的存档。 确定/取消", function(){
                         game.server.loadSave(save.guid);
                     });
                 }}, $I("ui.kgnet.save.load")),
@@ -534,7 +535,7 @@ WCloudSaveRecord = React.createClass({
                         self.setState({
                             isEditable: !self.state.isEditable
                         })
-                }}, "edit"
+                }}, "更名"
             ),
             this.state.showActions &&
                 $r("a", { onClick: function(e){
@@ -549,7 +550,7 @@ WCloudSaveRecord = React.createClass({
                         //(pushMetadata should return a new save snapshot)
                         self.forceUpdate();
                     });
-                }}, "archive")  
+                }}, "归档")
         ]);
     }
 })
@@ -591,11 +592,11 @@ WCloudSaves = React.createClass({
             $r("div", {className:"save-record-container"},
             //header
             saveData && $r("div", {className:"save-record header"}, [
-                $r("div", {className:"save-record-cell"}, "Id"),
-                $r("div", {className:"save-record-cell"}, "Save"),
-                $r("div", {className:"save-record-cell"}, "Last update"),
-                $r("div", {className:"save-record-cell"}, "Size"),
-                $r("div", {className:"save-record-cell"}, "Actions")
+                $r("div", {className:"save-record-cell"}, "存档ID"),
+                $r("div", {className:"save-record-cell"}, "游戏年"),
+                $r("div", {className:"save-record-cell"}, "上次更新"),
+                $r("div", {className:"save-record-cell"}, "大小"),
+                $r("div", {className:"save-record-cell"}, "存档操作")
             ]),
             //body
             //TODO: externalize save record as component?
@@ -608,12 +609,12 @@ WCloudSaves = React.createClass({
                     $r("a", {onClick: function(e){
                         e.stopPropagation();
                         game.server.pushSave();
-                    }}, "Create new save (" + game.telemetry.guid + ")")
+                    }}, "创建新的存档 (" + game.telemetry.guid + ")")
                 ]),
                 $r("div", {className:"save-record"},[
                     $r("a", {
                         className: "link",
-                        title: "Fetch the latest information about your cloud saves from the serer. This is a safe operation and it wont change any data.",
+                        title: "更新存档信息。这是安全按钮不会改变任何数据。",
                         onClick: function(e){
                             e.stopPropagation();
                             self.setState({isLoading: true})
@@ -622,7 +623,7 @@ WCloudSaves = React.createClass({
                             })
                         }
                     }, 
-                        (this.state.isLoading && "[loading..]"), 
+                        (this.state.isLoading && "[加载中..]"),
                         $I("ui.kgnet.sync")
                     ),
                     (!saveData || !saveData.length) && $r("span", {paddingTop:"10px"}, $I("ui.kgnet.instructional"))
@@ -670,7 +671,7 @@ WLogin = React.createClass({
                         $r("div", null,
                             $r("div", {className: "last-backup"}, [
                                 (lastBackup >= 7) && $r("span", {className: "hazard"}),
-                                "Last backup: ", lastBackup.toFixed(1) + " days ago",
+                                "上次更新：", lastBackup.toFixed(1) + " 天前",
                                 (lastBackup >= 7) && $r("span", {className: "hazard"})
                             ]),
                             $r(WLoginForm, {game: game}),
