@@ -1335,16 +1335,16 @@ dojo.declare("classes.village.Map", null, {
 	biomes: [
 	{
 		name: "village",
-		title: "Village",
-		desc: "Improves exploration rate of all biomes",
+		title: "村庄",
+		desc: "提高所有生物群系的探索率",
 		terrainPenalty: 1.0,
 		faunaPenalty: 0,
 		unlocked: true,
 	},
 	{
 		name: "plains",
-		title: "Plains",
-		desc: "Improves catnip generation by 1% per level",
+		title: "平原",
+		desc: "每等级提高猫薄荷产量 1%",
 		terrainPenalty: 1.0,
 		unlocked: true,
 		unlocks: {
@@ -1373,8 +1373,8 @@ dojo.declare("classes.village.Map", null, {
 	},
 	{
 		name: "hills",
-		title: "Hills",
-		desc: "TBD",
+		title: "丘陵",
+		desc: "待定",
 		terrainPenalty: 1.2,
 		unlocked: false,
 		unlocks: {
@@ -1389,8 +1389,8 @@ dojo.declare("classes.village.Map", null, {
 	},
 	{
 		name: "forest",
-		title: "Forest",
-		desc: "Improves your wood production by 1% per level",
+		title: "森林",
+		desc: "每等级提高木材产量 1%",
 		lore: {
 			5: "It smells really nice",
 			10: "The forest is rumored to be endless and covering half of the planet",
@@ -1408,7 +1408,7 @@ dojo.declare("classes.village.Map", null, {
 	},
 	{
 		name: "boneForest",
-		title: "Bone Forest",
+		title: "白骨森林",
 		terrainPenalty: 1.9,
 		unlocked: false,
 		evaluateLocks: function(game){
@@ -1419,8 +1419,8 @@ dojo.declare("classes.village.Map", null, {
 		},
 	},{
 		name: "rainForest",
-		title: "Rain Forest",
-		description: "TBD",
+		title: "雨林",
+		description: "待定",
 		terrainPenalty: 1.4,
 		unlocked: false,
 		5: "The trees are so tall you don't see where it ends. When the rain starts it can go for hundreds of years.",
@@ -1428,8 +1428,8 @@ dojo.declare("classes.village.Map", null, {
 	},
 	{
 		name: "mountain",
-		title: "Mountain",
-		description: "Improves mineral generation by 1% per level",
+		title: "高山",
+		description: "每等级提高矿物产量 1%",
 		terrainPenalty: 1.2,
 		lore: {
 			5: "Remember to grab your mandatory 50 meters of rope. The ascend will take quite some time.",
@@ -1451,8 +1451,8 @@ dojo.declare("classes.village.Map", null, {
 	},
 	{
 		name: "volcano",
-		title: "Volcano",
-		description: "TBD",
+		title: "火山",
+		description: "待定",
 		terrainPenalty: 3.5,
 		unlocked: false,
 		lore: {
@@ -1464,8 +1464,8 @@ dojo.declare("classes.village.Map", null, {
 	},
 	{
 		name: "desert",
-		title: "Desert",
-		description: "Improves solar panel effectiveness by 1% per level",
+		title: "沙漠",
+		description: "每等级提高太阳能电池板效率 1%",
 		terrainPenalty: 1.5,
 		unlocked: false,
 		lore: {
@@ -1479,7 +1479,7 @@ dojo.declare("classes.village.Map", null, {
 		},
 	},{
 		name: "bloodDesert",
-		title: "Crimson Desert",
+		title: "赤红沙漠",
 		description: "",
 		terrainPenalty: 1.5,
 		lore: {
@@ -1490,8 +1490,8 @@ dojo.declare("classes.village.Map", null, {
 		unlocked: false
 	},{
 		name: "swamp",
-		title: "Swamp",
-		description : "Everything that is edible is poisonous and so are the trees and the grass and the air is also poisonous slightly",
+		title: "沼泽",
+		description : "一切能吃的东西都是有毒的，树木和草也是有毒的，空气也有轻微的毒性",
 		terrainPenalty: 1.95,
 		lore: {
 			5: "Everything here tries to kill you",
@@ -1751,7 +1751,7 @@ dojo.declare("classes.ui.village.BiomeBtnController", com.nuclearunicorn.game.ui
 
 			//mark current biome for visual identification
 			if (map.currentBiome == model.options.id){
-				name += " (current)";
+				name += " (当前)";
 			}
 		}
 
@@ -1991,7 +1991,7 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		this.upgradeHQBtn.render(btnsContainer);
 		//----------------------
 
-		dojo.create("div", {innerHTML: "Biomes", style: { paddingBottom: "10px"} }, div);
+		dojo.create("div", {innerHTML: "生物群落", style: { paddingBottom: "10px"} }, div);
 		//this.villageDiv = dojo.create("div", null, div);
 		this.explorationDiv = dojo.create("div", null, div);
 
@@ -2000,11 +2000,11 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		}, div);*/
 
 		this.teamDiv = dojo.create("div", {
-			innerHTML: "Explorers: Supplies []"
+			innerHTML: "探索者: 补给 []"
 		}, div);
 
 		this.explorerDiv = dojo.create("div", {
-			innerHTML: "Explorers: lvl 0, HP: " + map.hp.toFixed(1) + "/" + map.getMaxHP()
+			innerHTML: "探索者: lvl 0, HP: " + map.hp.toFixed(1) + "/" + map.getMaxHP()
 		}, div);
 
 		var btnsContainer = dojo.create("div", {style:{paddingTop:"20px"}}, div);
@@ -2024,9 +2024,9 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 			/*this.biomeDiv.innerHTML = "Biome data: lv. " + biome.level +
 				", cp. " + biome.cp.toFixed(1) + "/???, difficulty: x" + biome.terrainPenalty; */
 
-			this.explorationDiv.innerHTML = "Currently exploring: [" + biome.title + "], " +
+			this.explorationDiv.innerHTML = "当前探索: [" + biome.title + "], " +
 			(biome.cp / toLevel * 100).toFixed(0) +
-			"% [Cancel]";	//<-- link TBD
+			"% [取消]";	//<-- link TBD
 		} else {
 			//this.biomeDiv.innerHTML = "Explorers awaiting at the base";
 		}
@@ -2034,8 +2034,8 @@ dojo.declare("classes.village.ui.MapOverviewWgt", [mixin.IChildrenAware, mixin.I
 		this.upgradeExplorersBtn.update();
 		this.upgradeHQBtn.update();
 
-		this.teamDiv.innerHTML = "Supplies [" + map.energy.toFixed(0) + " days]";
-		this.explorerDiv.innerHTML = "Explorers: HP: " + map.hp.toFixed(1) + "/" + map.getMaxHP().toFixed(1);
+		this.teamDiv.innerHTML = "补给 [" + map.energy.toFixed(0) + " 天]";
+		this.explorerDiv.innerHTML = "探索者: HP: " + map.hp.toFixed(1) + "/" + map.getMaxHP().toFixed(1);
 		this.inherited(arguments);
 	}
 });
@@ -2606,7 +2606,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 		  {
 				id: "unassign",
 				title: "[&ndash;]",
-				alt: "minus",
+				alt: "减",
 				handler: function(){
 					self.unassignJobs(model, 1);
 				}
@@ -2634,7 +2634,7 @@ dojo.declare("com.nuclearunicorn.game.ui.JobButtonController", com.nuclearunicor
 			{
 				id: "assign",
 				title: "[+]",
-				alt: "plus",
+				alt: "加",
 				handler: function(){
 					self.assignJobs(model, 1);
 				}
@@ -2796,7 +2796,7 @@ dojo.declare("classes.ui.village.Census", null, {
 					style: {
 						float: "right"
 					},
-					title: "Make a leader"
+					title: "分配领袖"
 				}, linksDiv);
 			}
 
@@ -2866,7 +2866,7 @@ dojo.declare("classes.ui.village.Census", null, {
 
 	getGovernmentInfo: function() {
 		//update leader stats
-		var leaderInfo = "%username%";
+		var leaderInfo = "无";
 		var leader = this.game.village.leader;
 		if (leader) {
 			var title = leader.trait.name == "none"
@@ -2874,7 +2874,7 @@ dojo.declare("classes.ui.village.Census", null, {
 				: leader.trait.title + " (" + $I("village.bonus.desc." + leader.trait.name) + ") [" + $I("village.census.rank") + " " + leader.rank + "]";
 			var nextRank = Math.floor(this.game.village.getRankExp(leader.rank));
 			leaderInfo = this.getStyledName(leader, true /*is leader panel*/) + ", " + title +
-				"<br /> exp: " + this.game.getDisplayValueExt(leader.exp);
+				"<br /> 经验: " + this.game.getDisplayValueExt(leader.exp);
 
 			if (nextRank > leader.exp) {
 				leaderInfo += " (" + Math.floor(100 * leader.exp / nextRank) + "%)";
