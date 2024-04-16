@@ -159,7 +159,11 @@
 					"js/math",
 					"game",
 
-					"js/toolbar"
+					"js/toolbar",
+
+					// 加载 概览 和 进度条
+					"NummonCalc",
+					"KGP",
 				];
 				progressMax = modules.length + 3;
 				console.log("Loading...");
@@ -590,6 +594,9 @@
 				<input id="highlightUnavailable" type="checkbox" onclick="gamePage.opts.highlightUnavailable = $('#highlightUnavailable')[0].checked;">
 				<label id="optionHighlightUnavailable" for="highlightUnavailable">Highlight buildings limited by storage space</label>
 				<br>
+				<input id="set-kgp-enable" type="checkbox" onclick="localStorage['zh.kgp.enable']?localStorage.removeItem('zh.kgp.enable'):localStorage.setItem('zh.kgp.enable', 'enable'); initKGP();">
+				<label id="kgp-label" for="set-kgp-enable">资源进度条</label>
+				<br>
 				<input id="hideSell" type="checkbox" onclick="gamePage.opts.hideSell = $('#hideSell')[0].checked;">
 				<label id="optionHideSell" for="hideSell">Hide 'sell' buttons</label>
 				<br>
@@ -704,6 +711,10 @@
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
+
+		<script type="text/javascript">
+			$("#set-kgp-enable").attr("checked", localStorage['zh.kgp.enable'] === 'enable');
+		</script>
 
 		<script type="text/javascript">
 			function readText() {
