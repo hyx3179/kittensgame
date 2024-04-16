@@ -37,7 +37,7 @@
 
 		<script type="text/javascript">
 			var now = Date.now();
-			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?_=" + now).appendTo($("head"));
+			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?_=" + new Date().getMonth()).appendTo($("head"));
 		</script>
 
 		<script>
@@ -79,7 +79,7 @@
 
 				var i = (Math.floor(Math.random() * loadingMessages.length));
 				$("#loadingProgressInfo").html(loadingMessages[i] + "...&nbsp(" + progress.toFixed() + "%)");
-				return System.import(module + ".js?rev_=" + buildRevision + "_" + Date.now());
+				return System.import(module + ".js?rev_=" + buildRevision);
 			}
 
 			function _import(module, def){
@@ -192,7 +192,7 @@
 				def = _import("i18n", def);
 				def.then(function () {
 					console.log("Loading locale system");
-					var langPromise = i18nLang.init(now);
+					var langPromise = i18nLang.init(buildRevision);
 					langPromise.done(function() {
 						loadingMessages = [
 							$I("ui.loading.msg.0"),
