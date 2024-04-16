@@ -648,6 +648,14 @@
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
+		
+		<script type="text/javascript">
+			$.getJSON("/scientists/ks.version.json?=" + now)
+				.then(function (json) {
+					var srcScientists = '/scientists/kitten-scientists.user.js?v=';
+					document.body.appendChild(document.createElement('script')).src = srcScientists + json.KSbuildRevision;
+				});
+		</script>
 
 		<script type="text/javascript">
 			$("#set-kgp-enable").attr("checked", localStorage['zh.kgp.enable'] === 'enable');
