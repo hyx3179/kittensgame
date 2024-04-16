@@ -159,7 +159,11 @@
 					"js/math",
 					"game",
 
-					"js/toolbar"
+					"js/toolbar",
+
+					// 加载 概览 和 进度条
+					"NummonCalc",
+					"KGP",
 				];
 				progressMax = modules.length + 3;
 				console.log("Loading...");
@@ -565,6 +569,9 @@
 				<div id="booleanOptionsNormal"></div>
 				<br>
 
+				<input id="set-kgp-enable" type="checkbox" onclick="localStorage['zh.kgp.enable']?localStorage.removeItem('zh.kgp.enable'):localStorage.setItem('zh.kgp.enable', 'enable'); initKGP();">
+				<label id="kgp-label" for="set-kgp-enable">资源进度条</label>
+				<br>
 				<!-- niche options; put them here to reduce clutter in the options menu -->
 				<a id="optionMore" href="#" onclick="$('.optsExtra').toggle();">More...</a>
 				<div class="optsExtra" style="display:none;">
@@ -641,6 +648,10 @@
 				<!--  | <a href="classic/" target="_blank">classic</a> -->
 			</div>
 		</div>
+
+		<script type="text/javascript">
+			$("#set-kgp-enable").attr("checked", localStorage['zh.kgp.enable'] === 'enable');
+		</script>
 
 		<script type="text/javascript">
 			function readText() {
