@@ -229,7 +229,7 @@ dojo.declare("classes.game.Server", null, {
             //if you are running chilar locally you should know what you are doing
             return "http://localhost:7780";
         }
-        return "";
+        return "https://kittensgame.com";
     },
 
 	refresh: function(){
