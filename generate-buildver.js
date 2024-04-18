@@ -16,6 +16,7 @@ swRevision = swRevision ? swRevision : 0
 
 metadata.swRevision = swRevision + 1;
 fs.writeFile(publicFile, JSON.stringify(metadata), err => { if (err) throw err; })
+console.log(`Game build number: ${metadata.buildRevision}`);
 console.log(`Current build number: ${metadata.swRevision}`);
 
 var str = "(function () {const swRevision = " + metadata.swRevision

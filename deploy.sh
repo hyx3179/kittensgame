@@ -11,7 +11,7 @@ build() {
 	cp -r ./res ./public/res
 
 	echo "Handling JavaScript"
-	for file in KGP.js config.js core.js game.js i18n.js; do
+	for file in config.js core.js game.js i18n.js; do
 		google-closure-compiler --js ./"$file" --js_output_file ./public/"$file"
 	done
 	while IFS= read -r -d '' file; do
@@ -29,6 +29,7 @@ build() {
 
 	echo "Generate build version"
 	wget -q https://${DEPLOY_URL}/build.version.json -O ./public/build.version.json
+	wget -q https://kittensgame.com/web/build.version.json -O ./build.version.json
 	node generate-buildver.js
 	csplit -q -f sw- ./sw.js /--------------------------/
 	cat sw-01 >>sw-public.js
