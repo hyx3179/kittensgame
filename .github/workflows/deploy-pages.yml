@@ -18,6 +18,10 @@ jobs:
         env:
           DEPLOY_URL: ${{ secrets.DEPLOY_URL }}
         run: |
+          curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && sudo dpkg -i cloudflared.deb
+          mkdir $HOME/.ssh
+          echo "Host *.hyx3179.com" > $HOME/.ssh/config
+          echo "  ProxyCommand cloudflared access ssh --hostname %h" >> $HOME/.ssh/config
           npm i -g google-closure-compiler
           bash ./deploy.sh build
 
