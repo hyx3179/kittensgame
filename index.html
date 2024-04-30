@@ -3,10 +3,13 @@
 
 	<head>
 		<script>
-			if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1' ) {
-				if (typeof navigator.serviceWorker !== 'undefined' &&
-					location.pathname.indexOf('//') == -1) {
+			if ("serviceWorker" in navigator && location.pathname.indexOf('//') == -1) {
+				if (localStorage['serviceWorker.enable'] === 'enable') {
 					navigator.serviceWorker.register('sw.js')
+				} else {
+					navigator.serviceWorker.getRegistrations().then((registrations) => {
+						registrations.forEach(sw => sw.unregister())
+					})
 				}
 			}
 		</script>
@@ -78,7 +81,6 @@
 
 			var version = "1494";
 			var buildRevision = 0;
-			var swRevision = 0;
 
 			var invalidateCache = false;
 
@@ -199,7 +201,6 @@
 
 				var def = $.getJSON("build.version.json?="+now).then(function(json){
 					buildRevision = json.buildRevision;
-					swRevision = json.swRevision;
 					loadedTheme.length > 0 && loadTheme(uiSettings.theme, buildRevision);
 					console.log("build revison is: " + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
@@ -551,7 +552,6 @@
 
 			<div id="optionsDiv" style="display: none;" class="dialog help">
 				<a id="dialogClose" href="#" class="close" onclick="gamePage.closeOptions()" style="position: absolute; top: 10px; right: 15px;">close</a>
-				<a id="forceRefresh" href="#" title="强制刷新" style="position: absolute; top: 9px; right: 60px; font-size: 21px;">↻</a>
 
 				<label id="optionLanguage" for="languageSelector">Language:</label>
 				<select id="languageSelector" onchange="gamePage.ui.updateLanguage()">
@@ -573,6 +573,10 @@
 				&nbsp;<a id="schemeRelock" href="#" onclick="gamePage.ui.relockSchemes()" style="font-size:14px;">Relock schemes</a>
 				<br><i><span id="schemeTip" style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></i>
 				<br>
+				<br>
+				
+				<input id="serviceWorker" type="checkbox" onclick="localStorage['serviceWorker.enable']?localStorage.removeItem('serviceWorker.enable'):localStorage.setItem('serviceWorker.enable', 'enable');">
+				<label id="optionServiceWorker" for="serviceWorker">启用 Service Worker </label><a id="forceRefresh" href="#" title="强制刷新">[强制刷新]</a>
 				<br>
 
 				<!-- ===================================== NOTE: FOR FULL I18N SUPPORT ===================================== -->
@@ -661,9 +665,11 @@
 		</div>
 
 		<script type="text/javascript">
+			$("#serviceWorker").attr("checked", localStorage['serviceWorker.enable'] === 'enable');
 			$("#forceRefresh").on('click', function () {
 				game.save();
-				caches.delete('cat-' + swRevision);
+				caches.delete('catExtRes');
+				caches.delete('catRes');
 				window.location.reload();
 			});
 		</script>
