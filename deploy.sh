@@ -11,7 +11,7 @@ build() {
 	cp -r ./res ./public/res
 
 	echo "Handling JavaScript"
-	for file in config.js core.js game.js i18n.js; do
+	for file in config.js core.js game.js i18n.js sw.js; do
 		google-closure-compiler --js ./"$file" --js_output_file ./public/"$file"
 	done
 	while IFS= read -r -d '' file; do
@@ -29,15 +29,11 @@ build() {
 
 	echo "Generate build version"
 	node generate-buildver.cjs
-	csplit -q -f sw- ./sw.js /--------------------------/
-	cat sw-01 >>sw-public.js
-	google-closure-compiler --js ./sw-public.js --js_output_file ./public/sw.js
 
 }
 
 clear() {
 	rm -rf ./public*
-	rm -rf ./sw-*
 }
 
 case "$1" in

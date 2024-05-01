@@ -5,7 +5,7 @@
 		<script>
 			if ("serviceWorker" in navigator && location.pathname.indexOf('//') == -1) {
 				if (localStorage['serviceWorker.enable'] === 'enable') {
-					navigator.serviceWorker.register('sw.js')
+					navigator.serviceWorker.register('sw.js');
 					navigator.serviceWorker.ready.then((registration) => {
 						registration.active.postMessage(
 							localStorage['offline.enable'],
@@ -13,7 +13,7 @@
 					});
 				} else {
 					navigator.serviceWorker.getRegistrations().then((registrations) => {
-						registrations.forEach(sw => sw.unregister())
+						registrations.forEach(sw => sw.unregister());
 					})
 				}
 			}
@@ -579,12 +579,12 @@
 				<br><i><span id="schemeTip" style="font-size: 70%;">Schemes that you cannot select yet can be permanently unlocked by specific actions.</span></i>
 				<br>
 				<br>
-				
-				<input id="serviceWorker" type="checkbox" onclick="localStorage['serviceWorker.enable']?localStorage.removeItem('serviceWorker.enable'):localStorage.setItem('serviceWorker.enable', 'enable');">
-				<label id="optionServiceWorker" for="serviceWorker">启用 Service Worker </label><a id="forceRefresh" href="#" title="强制刷新 Service Worker 缓存">[强制刷新]</a>
-				<br>
-				<input id="offline" type="checkbox" onclick="localStorage['offline.enable']?localStorage.removeItem('offline.enable'):localStorage.setItem('offline.enable', 'enable');" style="display: none;">
-				<label id="optionoffline" for="offline" style="display: none;" title="不检查游戏更新">默认使用旧缓存</label>
+
+				<input id="serviceWorker" type="checkbox" onclick="optionToggle('serviceWorker.enable');">
+				<label id="optionServiceWorker" for="serviceWorker" title="即使你断开网络连接，你仍然可以继续浏览网页">启用 Service Worker </label>
+				<a id="forceRefresh" href="#" title="强制刷新 Service Worker 缓存">[强制刷新]</a>
+				<input id="offline" type="checkbox" onclick="optionToggle('offline.enable');" style="display: none;">
+				<label id="optionoffline" for="offline" style="display: none;" title="不检查游戏更新"><i>默认使用旧缓存</i></label>
 				<br>
 
 				<!-- ===================================== NOTE: FOR FULL I18N SUPPORT ===================================== -->
@@ -592,7 +592,7 @@
 				<div id="booleanOptionsNormal"></div>
 				<br>
 
-				<input id="set-kgp-enable" type="checkbox" onclick="localStorage['zh.kgp.enable']?localStorage.removeItem('zh.kgp.enable'):localStorage.setItem('zh.kgp.enable', 'enable'); initKGP();">
+				<input id="set-kgp-enable" type="checkbox" onclick="optionToggle('zh.kgp.enable'); initKGP();">
 				<label id="kgp-label" for="set-kgp-enable">资源进度条</label>
 				<br>
 				<!-- niche options; put them here to reduce clutter in the options menu -->
@@ -673,18 +673,12 @@
 		</div>
 
 		<script type="text/javascript">
-			$("#serviceWorker").attr("checked", localStorage['serviceWorker.enable'] === 'enable');
-			$("#offline").attr("checked", localStorage['offline.enable'] === 'enable');
-			if (localStorage['serviceWorker.enable'] === 'enable') {
-				$("#offline").show();
-				$("#optionoffline").show();
-			}
 			$("#forceRefresh").on('click', function () {
+				localStorage.removeItem('offline.enable');
 				navigator.serviceWorker.getRegistrations().then((registrations) => {
-					registrations.forEach(sw => sw.unregister())
+					registrations.forEach(sw => sw.unregister());
 				})
-				caches.delete('catExtRes');
-				caches.delete('catRes');
+				caches.keys().then((cacheNames) => cacheNames.map((cacheName) => caches.delete(cacheName)));
 				gamePage.reload();
 			});
 		</script>
@@ -699,6 +693,17 @@
 
 		<script type="text/javascript">
 			$("#set-kgp-enable").attr("checked", localStorage['zh.kgp.enable'] === 'enable');
+			$("#serviceWorker").attr("checked", localStorage['serviceWorker.enable'] === 'enable');
+			$("#offline").attr("checked", localStorage['offline.enable'] === 'enable');
+			if (localStorage['serviceWorker.enable'] === 'enable') {
+				$("#offline").show();
+				$("#optionoffline").show();
+			}
+			function optionToggle(option) {
+				localStorage[option]
+					? localStorage.removeItem(option)
+					: localStorage.setItem(option, "enable");
+			}
 		</script>
 
 		<script type="text/javascript">
