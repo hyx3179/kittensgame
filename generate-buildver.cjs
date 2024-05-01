@@ -20,10 +20,4 @@ Promise.all([
     fs.writeFile(publicFile, JSON.stringify(metadata), (err) => {
       if (err) throw err;
     });
-
-    var str = "(function () {const swRevision = " + metadata.buildRevision;
-    fs.writeFile("sw-public.js", str, (err) => {
-      if (err) throw err;
-    });
-  })
-  .catch(() => console.error("服务器错误"));
+  });
