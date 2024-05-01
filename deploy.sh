@@ -28,9 +28,7 @@ build() {
 	cp ./server.json ./public
 
 	echo "Generate build version"
-	wget -q https://${DEPLOY_URL}/build.version.json -O ./public/build.version.json
-	wget -q https://kittensgame.com/web/build.version.json -O ./build.version.json
-	node generate-buildver.js
+	node generate-buildver.cjs
 	csplit -q -f sw- ./sw.js /--------------------------/
 	cat sw-01 >>sw-public.js
 	google-closure-compiler --js ./sw-public.js --js_output_file ./public/sw.js

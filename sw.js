@@ -2,7 +2,17 @@
   const swRevision = 0;
   // 这之前的行会在构建时删除 --------------------------
   const HOSTNAME_BLACKLIST = ["kittensgame.com"];
+  let ignoreSearch = false;
 
+  addEventListener("install", () => {
+    skipWaiting();
+  });
+  addEventListener("activate", (event) => {
+    event.waitUntil(clients.claim());
+  });
+  addEventListener("message", (event) => {
+    ignoreSearch = event.data === "enable";
+  });
   // 请求处理
   addEventListener("fetch", (event) => {
     let url = new URL(event.request.url);
@@ -23,7 +33,7 @@
     });
     // 优先寻找 cache
     event.respondWith(
-      caches.match(req).then((cached) => {
+      caches.match(req, { ignoreSearch: ignoreSearch }).then((cached) => {
         if (cached && cached.ok) {
           return cached;
         }

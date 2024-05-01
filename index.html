@@ -6,6 +6,11 @@
 			if ("serviceWorker" in navigator && location.pathname.indexOf('//') == -1) {
 				if (localStorage['serviceWorker.enable'] === 'enable') {
 					navigator.serviceWorker.register('sw.js')
+					navigator.serviceWorker.ready.then((registration) => {
+						registration.active.postMessage(
+							localStorage['offline.enable'],
+						);
+					});
 				} else {
 					navigator.serviceWorker.getRegistrations().then((registrations) => {
 						registrations.forEach(sw => sw.unregister())
@@ -576,7 +581,10 @@
 				<br>
 				
 				<input id="serviceWorker" type="checkbox" onclick="localStorage['serviceWorker.enable']?localStorage.removeItem('serviceWorker.enable'):localStorage.setItem('serviceWorker.enable', 'enable');">
-				<label id="optionServiceWorker" for="serviceWorker">启用 Service Worker </label><a id="forceRefresh" href="#" title="强制刷新">[强制刷新]</a>
+				<label id="optionServiceWorker" for="serviceWorker">启用 Service Worker </label><a id="forceRefresh" href="#" title="强制刷新 Service Worker 缓存">[强制刷新]</a>
+				<br>
+				<input id="offline" type="checkbox" onclick="localStorage['offline.enable']?localStorage.removeItem('offline.enable'):localStorage.setItem('offline.enable', 'enable');" style="display: none;">
+				<label id="optionoffline" for="offline" style="display: none;" title="不检查游戏更新">默认使用旧缓存</label>
 				<br>
 
 				<!-- ===================================== NOTE: FOR FULL I18N SUPPORT ===================================== -->
@@ -666,11 +674,18 @@
 
 		<script type="text/javascript">
 			$("#serviceWorker").attr("checked", localStorage['serviceWorker.enable'] === 'enable');
+			$("#offline").attr("checked", localStorage['offline.enable'] === 'enable');
+			if (localStorage['serviceWorker.enable'] === 'enable') {
+				$("#offline").show();
+				$("#optionoffline").show();
+			}
 			$("#forceRefresh").on('click', function () {
-				game.save();
+				navigator.serviceWorker.getRegistrations().then((registrations) => {
+					registrations.forEach(sw => sw.unregister())
+				})
 				caches.delete('catExtRes');
 				caches.delete('catRes');
-				window.location.reload();
+				gamePage.reload();
 			});
 		</script>
 		
