@@ -53,7 +53,7 @@
 
 		<script type="text/javascript">
 			var now = Date.now();
-			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?_=" + new Date().getMonth()).appendTo($("head"));
+			// $("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?_=" + new Date().getMonth()).appendTo($("head"));
 		</script>
 
 		<script>
@@ -112,10 +112,14 @@
 			}
 
 			function loadTheme(themeId, timestamp){
+				if (themeId !== "default") {
+					themeId = "theme_" + themeId;
+					$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?_=" + timestamp).appendTo($("head"));
+				}
 				$("<link />")
 					.attr("rel", "stylesheet")
 					.attr("type", "text/css")
-					.attr("href", "res/theme_" + themeId + ".css?_=" + timestamp)
+					.attr("href", "res/" + themeId + ".css?_=" + timestamp)
 					.appendTo($("head"));
 			}
 
@@ -748,11 +752,7 @@
 		</script>
 		
 		<script type="text/javascript">
-			$.getJSON("/scientists/ks.version.json?=" + now)
-				.then(function (json) {
-					var srcScientists = '/scientists/kitten-scientists.user.js?v=';
-					document.body.appendChild(document.createElement('script')).src = srcScientists + json.KSbuildRevision;
-				});
+			$.getJSON("/scientists/ks.version.json?=" + now).then(json => System.import("/scientists/kitten-scientists.user.js?v=" + json.KSbuildRevision));
 		</script>
 
 		<script type="text/javascript">
