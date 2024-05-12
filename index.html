@@ -53,7 +53,7 @@
 
 		<script type="text/javascript">
 			var now = Date.now();
-			$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?_=" + new Date().getMonth()).appendTo($("head"));
+			// $("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?_=" + new Date().getMonth()).appendTo($("head"));
 		</script>
 
 		<script>
@@ -112,10 +112,14 @@
 			}
 
 			function loadTheme(themeId, timestamp){
+				if (themeId !== "default") {
+					themeId = "theme_" + themeId;
+					$("<link />").attr("rel", "stylesheet").attr("type", "text/css").attr("href", "res/default.css?_=" + timestamp).appendTo($("head"));
+				}
 				$("<link />")
 					.attr("rel", "stylesheet")
 					.attr("type", "text/css")
-					.attr("href", "res/theme_" + themeId + ".css?_=" + timestamp)
+					.attr("href", "res/" + themeId + ".css?_=" + timestamp)
 					.appendTo($("head"));
 			}
 
@@ -165,7 +169,7 @@
 
 					"js/toolbar",
 
-					// 加载 概览 和 进度条
+					// 加载 概览 和 进度条a
 					"NummonCalc",
 					"KGP",
 				];
