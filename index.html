@@ -210,7 +210,7 @@
 
 				var def = $.getJSON("build.version.json?="+now).then(function(json){
 					buildRevision = json.buildRevision;
-					loadedTheme.length > 0 && loadTheme(uiSettings.theme, buildRevision);
+					loadedTheme.length > 0 ? loadTheme(uiSettings.theme, buildRevision) : loadTheme("default", buildRevision);
 					console.log("build revison is: " + buildRevision);
 					$("#versionLink").html(displayedVersion + ".r" + buildRevision);
 				});
